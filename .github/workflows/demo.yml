@@ -1,0 +1,17 @@
+name: Simple Demo
+
+on:
+  workflow_dispatch
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set Variable
+        run: |
+          echo "MY_NAME=Akanksha" >> $GITHUB_ENV
+
+      - name: Use Variable
+        run: |
+          echo "Hello $MY_NAME"
