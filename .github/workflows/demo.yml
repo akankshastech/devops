@@ -9,9 +9,9 @@ on:
         type: choice
         options:
           - ''
-          - DEV
-          - STAGE
-          - PROD
+          - 'DEV'
+          - 'STAGE'
+          - 'PROD'
 
 jobs:
   demo:
