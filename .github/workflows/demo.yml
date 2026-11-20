@@ -2,36 +2,41 @@ name: Simple Demo
 
 on:
   workflow_dispatch:
-   inputs:
-   Environment:
+    inputs:
+      Environment:
         description: 'Vault Namespace'
         required: true
         type: choice
         options:
-          - ''
-          - 'DEV'
-          - 'STAGE'
-          - 'PROD'
-
+          - DEV
+          - STAGE
+          - PROD
 
 jobs:
   demo:
     runs-on: ubuntu-latest
 
     steps:
-     - name: Validate Inputs
-      id: validate-inputs
-      run: |
-        ENVIRONMENT=""
-        if [ "${{ github.event.inputs.Environment }}" == "DEV" ]; then
-          echo "ENVIRONMENT is DEV"
-          echo "ENVIRONMENT=DEV" >> $GITHUB_ENV
-        elif [ "${{ github.event.inputs.Environment }}" == "STAGE" ]; then
-          echo "ENVIRONMENT is STAGE"
-          echo "ENVIRONMENT=STAGE" >> $GITHUB_ENV
-        elif [ "${{ github.event.inputs.Environment }}" == "PROD" ]; then
-          echo "ENVIRONMENT is PROD"
-          echo "ENVIRONMENT=PROD" >> $GITHUB_ENV
-        else
-          echo "::error::Environment must be DEV, STAGE, or PROD"
-          exit 1
+      - name: Validate Inputs
+        id: validate-inputs
+        run: |
+          if [ "${{ github.event.inputs.Environment }}" == "DEV" ]; then
+            echo "ENVIRONMENT is DEV"
+            echo "ENVIRONMENT=DEV" >> $GITHUB_ENV
+
+          elif [ "${{ github.event.inputs.Environment }}" == "STAGE" ]; then
+            echo "ENVIRONMENT is STAGE"
+            echo "ENVIRONMENT=STAGE" >> $GITHUB_ENV
+
+          elif [ "${{ github.event.inputs.Environment }}" == "PROD" ]; then
+            echo "ENVIRONMENT is PROD"
+            echo "ENVIRONMENT=PROD" >> $GITHUB_ENV
+
+          else
+            echo "::error::Environment must be DEV, STAGE, or PROD"
+            exit 1
+          fi
+
+      - name: Print Environment
+        run: |
+          echo "Selected Environment: $ENVIRONMENT"
